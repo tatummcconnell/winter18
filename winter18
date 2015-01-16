@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Winter 13</title>
+    <link href="http://saasmath.seattleacademy.org/css/bootstrap.css" rel="stylesheet">
+    <script src="http://code.jquery.com/jquery-latest.min.js"></script>
+    <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+    <script> 
+           // console.log("hello world!")
+           </script>
+           <script>
+
+           function cutdown(str){
+                str = str.toString(); // turn numbers, etc. to strings
+                str = str.toLowerCase(); //make all lower case
+                str = str.replace(' ',''); //strip out spaces
+                str = str.replace('.',''); //strip out periods
+                str = str.replace(',',''); //strip out commas
+                str = str.replace('?',''); //strip out question marks
+                str = str.replace('-',''); //strip out hyphens
+                str = str.replace('!',''); //strip out exclamation marks
+                return str;
+            }
+
+            $(document).ready(function() {
+                $('input').change(function() {
+
+                    correct=cutdown($(this).data('correct'));
+                    response=cutdown($(this).val());
+
+                    if(correct==response){
+                        $(this).removeClass("incorrect").addClass("correct");
+                        numcorrect = $('#correct').text();
+                        //We multiply by 1 change from type text to number
+                        $('#correct').text(numcorrect*1+1);
+                        numcorrect = numcorrect*1 + 1;
+
+                        numcorrect = $('#correct').text();
+                        numerrors = $('#errors').text();
+                        console.log ("numcorrect",numcorrect);
+                        numcorrect = numcorrect + 1
+                        percorrect = numcorrect/(numerrors + numcorrect);
+                        console.log(percorrect);
+                        $(this).nextAll('span:first').html('&#10004');
+                        $(this).parent().next().removeClass('hide');
+                      
+
+                    }
+
+                    else
+
+                    {
+                        $(this).removeClass("correct").addClass("incorrect");
+                        numerrors = $('#errors').text();
+                        $('#errors').text(numerrors*1+1);
+                    }
+
+                    if(correct!=response){
+                     $(this).nextAll('span:first').html('&#10008'); 
+
+                    numerrors = $('#errors').text()*1;
+                    numcorrect = $('#correct').text()*1;
+                    console.log(numcorrect);
+                    console.log(numerrors);
+                    $('#percorrect').text((numcorrect*1/(numcorrect*1+numerrors*1))*100);
+
+
+                 }
+
+
+             });
+});
+</script>
+
+<style type="text/css">
+.correct { 
+    background:#6FD176;
+    content: #10004;
+}  
+
+.incorrect { 
+    background:#F29999;
+}
+
+p {font-family:monospace;}
+h3{font-family:monospace;}
+
+#score{
+    font-family:monospace;
+    background-color:#A9F5DC;}
+
+    </style>
+
+</head>
+
+<body>
+    <div class="container">
+        <h3>Math Quiz</h3>
+
+        <div> 
+            <p id="first">\( \sqrt[3]{8}\) = <input data-correct ="2" type="text"/><span></span></p>
+            <p id="second" class="hide">\( \sqrt[3]{64}\) = <input data-correct ="4" type="text"/><span></span></p>
+            <p id="third" class="hide">\(64^{\frac{2}{3}}\) = <input data-correct ="16" type="text"/><span></span></p>
+            <p id="fourth" class="hide">\(64^{\frac{3}{2}}\) = <input data-correct="512" type="text"/><span></span></p>
+        </div>
+
+        <div id="score">
+            Correct: <span id="correct">0</span>
+            Errors:  <span id="errors">0</span>
+        </div>
+    </div>
+</body>
+
+</html>
